@@ -1,0 +1,32 @@
+# Rendered at container start (envsubst replaces ${AEGIS_NODE_URL}).
+# The browser talks to this server same-origin; nginx forwards the console's
+# /api/v1/* calls to your AegisDB node, so there is no cross-origin/CORS setup.
+server {
+    listen       80;
+    server_name  _;
+    root         /usr/share/nginx/html;
+    index        index.html;
+
+    # Don't cache the runtime config or the entry document.
+    location = /index.html              { add_header Cache-Control "no-store"; }
+    location = /aegis-runtime-config.js { add_header Cache-Control "no-store"; }
+
+    # Proxy the console API to the AegisDB node. Resolve the upstream LAZILY (via
+    # a variable + the container DNS resolver) so the console starts even if the
+    # node isn't up yet — a static proxy_pass would crash nginx at boot.
+    location /api/v1/ {
+        resolver           __AEGIS_RESOLVER__ valid=10s;
+        set $aegis_upstream "${AEGIS_NODE_URL}";
+        proxy_pass         $aegis_upstream$request_uri;
+        proxy_http_version 1.1;
+        proxy_set_header   Host              $host;
+        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header   X-Forwarded-Proto $scheme;
+        proxy_read_timeout 60s;
+    }
+
+    # SPA: everything else serves the app shell.
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}

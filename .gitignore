@@ -1,0 +1,4 @@
+# build-time only (UI is built from private source during release)
+ui-dist/
+*.log
+.DS_Store

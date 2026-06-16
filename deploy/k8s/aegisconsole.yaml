@@ -1,0 +1,105 @@
+# AegisConsole — self-hosted web console on Kubernetes.
+#
+#   kubectl apply -f deploy/k8s/aegisconsole.yaml
+#
+# Edit the ConfigMap's AEGIS_NODE_URL to point at your AegisDB node Service, and
+# the Ingress host to your domain. See deploy/DEPLOY.md.
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: aegisconsole
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aegisconsole-config
+  namespace: aegisconsole
+data:
+  # Server-side proxy target — your AegisDB node Service (cluster-internal).
+  AEGIS_NODE_URL: "http://aegisdb.aegisconsole.svc.cluster.local:9090"
+---
+# Node credentials for the in-browser login flow. OPTIONAL — omit if your node
+# requires no auth on the cluster network. See the security note in DEPLOY.md.
+apiVersion: v1
+kind: Secret
+metadata:
+  name: aegisconsole-node-creds
+  namespace: aegisconsole
+type: Opaque
+stringData:
+  AEGIS_NODE_USER: ""
+  AEGIS_NODE_PASS: ""
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: aegisconsole
+  namespace: aegisconsole
+  labels: { app: aegisconsole }
+spec:
+  replicas: 2
+  selector:
+    matchLabels: { app: aegisconsole }
+  template:
+    metadata:
+      labels: { app: aegisconsole }
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        seccompProfile: { type: RuntimeDefault }
+      containers:
+        - name: console
+          image: ghcr.io/automatanexus/aegisconsole-desktop:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 80
+          envFrom:
+            - configMapRef: { name: aegisconsole-config }
+            - secretRef:    { name: aegisconsole-node-creds }
+          readinessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            httpGet: { path: /, port: 80 }
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          resources:
+            requests: { cpu: "50m", memory: "64Mi" }
+            limits:   { cpu: "250m", memory: "128Mi" }
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: false   # nginx writes its rendered config
+            capabilities: { drop: ["ALL"] }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aegisconsole
+  namespace: aegisconsole
+spec:
+  selector: { app: aegisconsole }
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: aegisconsole
+  namespace: aegisconsole
+  annotations:
+    # Add your TLS / cert-manager / class annotations here.
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+spec:
+  rules:
+    - host: console.example.com   # ← change to your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: aegisconsole
+                port: { number: 80 }

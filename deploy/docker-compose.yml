@@ -1,0 +1,29 @@
+# Self-host the AegisConsole web UI against your AegisDB node.
+#
+#   docker compose up -d
+#   open http://localhost:8080
+#
+# Point AEGIS_NODE_URL at your node. If the node runs elsewhere, drop the
+# `aegisdb` service below and set AEGIS_NODE_URL to its address.
+services:
+  console:
+    image: ghcr.io/automatanexus/aegisconsole-desktop:latest
+    ports:
+      - "8080:80"
+    environment:
+      # Server-side: where nginx forwards the console's /api/v1/* calls.
+      AEGIS_NODE_URL: "http://aegisdb:9090"
+      # Optional: credentials for the in-browser node login (see DEPLOY.md note).
+      # AEGIS_NODE_USER: "console"
+      # AEGIS_NODE_PASS: "change-me"
+    restart: unless-stopped
+    depends_on:
+      - aegisdb
+
+  # Example AegisDB node. Replace the image with your AegisDB node image, or
+  # remove this service and point AEGIS_NODE_URL at an existing node.
+  aegisdb:
+    image: ghcr.io/automatanexus/aegisdb:latest
+    # ports:               # expose only if you need direct node access
+    #   - "9090:9090"
+    restart: unless-stopped
