@@ -1,15 +1,28 @@
 <div align="center">
 
+<img src="docs/img/logo.png" alt="AegisConsole" width="120" />
+
 # AegisConsole Desktop
 
 **The full AegisConsole, running locally against your own AegisDB node.**
 
-Windows · macOS · Linux · Signed installers with SLSA Provenance L3
+[![Release](https://img.shields.io/github/v/release/AutomataNexus/AegisConsole-Desktop-Releases?sort=semver&display_name=tag&color=4f46e5)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/AutomataNexus/AegisConsole-Desktop-Releases/total?color=4f46e5)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases)
+[![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-555)](docs/INSTALL.md)
+[![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-24c8db)](https://tauri.app)
+[![SLSA Level 3](https://img.shields.io/badge/SLSA-Level%203-2da44e)](docs/INSTALL.md#verifying-your-download)
+[![Docker](https://img.shields.io/badge/self--host-Docker%20%7C%20K8s-2496ed)](docs/DEPLOY.md)
+[![License](https://img.shields.io/badge/license-Proprietary-blue)](LICENSE)
 
-[**Download**](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases/latest) ·
+[**⬇ Download**](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases/latest) ·
 [User Guide](docs/USER_GUIDE.md) ·
 [Install](docs/INSTALL.md) ·
+[Self-host](docs/DEPLOY.md) ·
 [Changelog](CHANGELOG.md)
+
+<br/>
+
+<img src="docs/img/carousel.gif" alt="AegisConsole screens" width="820" />
 
 </div>
 
@@ -47,6 +60,21 @@ Each release also includes a `*.intoto.jsonl` provenance file — see
   full-text, geospatial, columnar, object store, wide-column, ledger.
 - **One-click cloud upgrade** — move to managed hosting whenever you outgrow a
   single node.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td width="33%"><a href="docs/img/preview-1.png"><img src="docs/img/preview-1.png" alt="Overview"/></a></td>
+    <td width="33%"><a href="docs/img/preview-2.png"><img src="docs/img/preview-2.png" alt="Explorer"/></a></td>
+    <td width="33%"><a href="docs/img/preview-3.png"><img src="docs/img/preview-3.png" alt="Query"/></a></td>
+  </tr>
+  <tr>
+    <td><a href="docs/img/preview-4.png"><img src="docs/img/preview-4.png" alt="Paradigms"/></a></td>
+    <td><a href="docs/img/preview-5.png"><img src="docs/img/preview-5.png" alt="Graph"/></a></td>
+    <td><a href="docs/img/preview-6.png"><img src="docs/img/preview-6.png" alt="Metrics"/></a></td>
+  </tr>
+</table>
 
 ## Requirements
 
@@ -94,7 +122,12 @@ If you want **local secret vaulting** or a **managed security / SIEM layer**
 Open an [issue](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/issues)
 or email **support@automatanexus.com**.
 
+## Maintainer
+
+**AutomataNexus LLC** — Andrew Jewell Sr. ([@AutomataControls](https://github.com/AutomataControls)) ·
+[automatanexus.com](https://automatanexus.com)
+
 ---
 
-Proprietary © AutomataNexus LLC. All rights reserved. Use is governed by the
+Proprietary © 2026 AutomataNexus LLC. All rights reserved. Use is governed by the
 [EULA](EULA.md).
