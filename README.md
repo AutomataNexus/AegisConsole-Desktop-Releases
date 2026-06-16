@@ -6,8 +6,8 @@
 
 **The full AegisConsole, running locally against your own AegisDB node.**
 
-[![Release](https://img.shields.io/github/v/release/AutomataNexus/AegisConsole-Desktop-Releases?sort=semver&display_name=tag&color=4f46e5)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/AutomataNexus/AegisConsole-Desktop-Releases/total?color=4f46e5)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases)
+[![Release](https://img.shields.io/badge/release-v0.1.0-4f46e5)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/releases/latest)
+[![Container](https://img.shields.io/badge/ghcr.io-aegisconsole--desktop-2496ed?logo=docker&logoColor=white)](https://github.com/AutomataNexus/AegisConsole-Desktop-Releases/pkgs/container/aegisconsole-desktop)
 [![Platforms](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-555)](docs/INSTALL.md)
 [![Built with Tauri](https://img.shields.io/badge/built%20with-Tauri%202-24c8db)](https://tauri.app)
 [![SLSA Level 3](https://img.shields.io/badge/SLSA-Level%203-2da44e)](docs/INSTALL.md#verifying-your-download)
